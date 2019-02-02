@@ -33,7 +33,7 @@ public class ApiGoogleDrive {
 
 	private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 	private final String TOKENS_DIRECTORY_PATH = "tokens";
-	private final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
+	private final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
 
 	public Drive getDrive() throws IOException, GeneralSecurityException {
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -50,7 +50,7 @@ public class ApiGoogleDrive {
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 				clientSecrets, SCOPES)
 						.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-						.setAccessType("offline").build();
+						.setAccessType("online").build();
 		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
 		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}

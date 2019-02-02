@@ -30,9 +30,15 @@ public class ApiGoogleApplicationTests {
 	}
 	
 	@Test
-	public void cointainsWord() throws IOException, GeneralSecurityException {
-		boolean ok = apiGoogleService.containsWord("1l-tYFXhH5HSD_KxYLRE3965LLPGMdObbl-pKN2qB3g0", "HOLA");
+	public void matchWord() throws IOException, GeneralSecurityException {
+		boolean ok = apiGoogleService.containsWord("1DalOlMXMPVfc_AWrcC2TpntomXERQB53", "HOLA");
 		assertTrue(ok);
+	}
+	
+	@Test
+	public void createFile() throws IOException, GeneralSecurityException {
+		File file = apiGoogleService.createFile("TITULO", "LAAA DESCRIPCION");
+		assertTrue(file != null);
 	}
 }
 
