@@ -8,19 +8,19 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 @ConfigurationProperties(prefix = "api.constant")
 public class ApiConstant {
-	private String userHome;
-	private String path;
+	private String credentialFilePath;
+	private String applicationName;
 	
-	public String getUserHome() {
-		return userHome;
+	public String getCredentialFilePath() {
+		return credentialFilePath;
 	}
-	public void setUserHome(String userHome) {
-		this.userHome = userHome;
+	public void setCredentialFilePath(String credentialFilePath) {
+		this.credentialFilePath = credentialFilePath;
 	}
-	public String getPath() {
-		return path;
+	public String getApplicationName() {
+		return applicationName;
 	}
-	public void setPath(String path) {
-		this.path = path;
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
 	}
 }
