@@ -10,4 +10,5 @@ public interface ApiGoogleService {
 	List<File> getFiles(int number) throws IOException, GeneralSecurityException;
 	boolean containsWord(String id, String word) throws IOException, GeneralSecurityException;
 	File createFile (String tile, String description) throws IOException, GeneralSecurityException; 
+	String getLastUploadFile() throws IOException, GeneralSecurityException;
 }

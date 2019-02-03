@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,11 +54,19 @@ public class ApiGoogleServiceImpl implements ApiGoogleService {
 		fileMetadata.setName("EJEMPLO");
 		java.io.File filePath = new java.io.File("/home/lucas/Escritorio/TEST");
 		FileContent mediaContent = new FileContent("text/plain", filePath);
-		File file = apiGoogleDrive.getDrive().files().create(fileMetadata, mediaContent)
-		    .setFields("id")
-		    .execute();
-		
+		File file = apiGoogleDrive.getDrive().files().create(fileMetadata, mediaContent).setFields("id").execute();
+
 		return file;
 	}
 
+	@Override
+	public String getLastUploadFile() throws IOException, GeneralSecurityException {
+		logger.info("class:ApiGoogleServiceImpl, method: getLastUploadFile()");
+		Drive drive = apiGoogleDrive.getDrive();
+		FileList result = drive.files().list().setPageSize(1).setFields("nextPageToken, files(id)").execute();
+		if(!result.getFiles().isEmpty()) {
+			return result.getFiles().stream().map(file -> file.getId()).collect(Collectors.toList()).get(0);	
+		}
+		return "no id";
+	}
 }

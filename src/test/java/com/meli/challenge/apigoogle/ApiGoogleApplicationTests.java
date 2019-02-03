@@ -26,7 +26,7 @@ public class ApiGoogleApplicationTests {
 	public void readFiles() throws IOException, GeneralSecurityException  {
 		List<File> files = apiGoogleService.getFiles(10);
 		files.stream().forEach(file -> System.out.println("nombre: " + file.getName() + " id: " + file.getId()));
-		assertTrue(files.size() == 10);
+		assertTrue(!files.isEmpty());
 	}
 	
 	@Test
@@ -39,6 +39,12 @@ public class ApiGoogleApplicationTests {
 	public void createFile() throws IOException, GeneralSecurityException {
 		File file = apiGoogleService.createFile("TITULO", "LAAA DESCRIPCION");
 		assertTrue(file != null);
+	}
+	
+	@Test
+	public void getLastuploadFileId() throws IOException, GeneralSecurityException {
+		String id = apiGoogleService.getLastUploadFile();
+		assertTrue(id != null);
 	}
 }
 
