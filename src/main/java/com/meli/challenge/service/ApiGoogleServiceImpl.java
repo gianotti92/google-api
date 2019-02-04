@@ -1,11 +1,11 @@
 package com.meli.challenge.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.meli.challenge.constant.ApiConstant;
 import com.meli.challenge.util.ApiGoogleDrive;
 
 @Service
@@ -24,6 +25,9 @@ public class ApiGoogleServiceImpl implements ApiGoogleService {
 
 	@Autowired
 	private ApiGoogleDrive apiGoogleDrive;
+	
+	@Autowired
+	private ApiConstant ApiConstant;
 
 	@Override
 	public List<File> getFiles(int number) throws IOException, GeneralSecurityException {
@@ -38,7 +42,7 @@ public class ApiGoogleServiceImpl implements ApiGoogleService {
 	public boolean containsWord(String id, String word) throws IOException, GeneralSecurityException {
 		logger.info("class:ApiGoogleServiceImpl, method: containsWord(), id:{}, word:{}", id, word);
 		Drive drive = apiGoogleDrive.getDrive();
-
+		setPropertyConnectionToSystem();
 		OutputStream outPutStream = new ByteArrayOutputStream();
 		drive.files().get(id).executeMediaAndDownloadTo(outPutStream);
 		String text = outPutStream.toString();
@@ -49,24 +53,22 @@ public class ApiGoogleServiceImpl implements ApiGoogleService {
 	@Override
 	public File createFile(String title, String description) throws IOException, GeneralSecurityException {
 		logger.info("class:ApiGoogleServiceImpl, method: createFile(), tile:{}, description:{}", title, description);
-
 		File fileMetadata = new File();
-		fileMetadata.setName("EJEMPLO");
-		java.io.File filePath = new java.io.File("/home/lucas/Escritorio/TEST");
+		fileMetadata.setName(title);
+		java.io.File filePath = new java.io.File(title);
+		setPropertyConnectionToSystem();
+		FileOutputStream fos = new FileOutputStream(filePath);
+		fos.write(description.getBytes());
+		fos.close();
+		
 		FileContent mediaContent = new FileContent("text/plain", filePath);
 		File file = apiGoogleDrive.getDrive().files().create(fileMetadata, mediaContent).setFields("id").execute();
-
+		filePath.delete();
 		return file;
 	}
-
-	@Override
-	public String getLastUploadFile() throws IOException, GeneralSecurityException {
-		logger.info("class:ApiGoogleServiceImpl, method: getLastUploadFile()");
-		Drive drive = apiGoogleDrive.getDrive();
-		FileList result = drive.files().list().setPageSize(1).setFields("nextPageToken, files(id)").execute();
-		if(!result.getFiles().isEmpty()) {
-			return result.getFiles().stream().map(file -> file.getId()).collect(Collectors.toList()).get(0);	
-		}
-		return "no id";
+	
+	private void setPropertyConnectionToSystem() {
+		System.setProperty(ApiConstant.getHttpProtocol(), ApiConstant.getProtocols());
 	}
+	
 }

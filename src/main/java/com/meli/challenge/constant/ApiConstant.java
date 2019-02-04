@@ -16,6 +16,8 @@ public class ApiConstant {
 	private String title;
 	private String description;
 	private String version;
+	private String httpProtocol;
+	private String protocols;
 	
 	public String getCredentialFilePath() {
 		return credentialFilePath;
@@ -65,5 +67,16 @@ public class ApiConstant {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
+	public String getHttpProtocol() {
+		return httpProtocol;
+	}
+	public void setHttpProtocol(String httpProtocol) {
+		this.httpProtocol = httpProtocol;
+	}
+	public String getProtocols() {
+		return protocols;
+	}
+	public void setProtocols(String protocols) {
+		this.protocols = protocols;
+	}
 }

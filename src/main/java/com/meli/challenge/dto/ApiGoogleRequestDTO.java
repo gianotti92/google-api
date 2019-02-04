@@ -1,23 +1,9 @@
 package com.meli.challenge.dto;
 
-public class ApiGoogleResponseDTO{
-	private String id;
-	private Boolean containsWord;
+public class ApiGoogleRequestDTO {
 	private String title;
 	private String description;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public Boolean getContainsWord() {
-		return containsWord;
-	}
-	public void setContainsWord(Boolean containsWord) {
-		this.containsWord = containsWord;
-	}
 	public String getTitle() {
 		return title;
 	}
@@ -30,4 +16,5 @@ public class ApiGoogleResponseDTO{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 }

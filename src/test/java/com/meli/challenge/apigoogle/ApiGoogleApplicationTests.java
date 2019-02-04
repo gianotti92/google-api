@@ -25,26 +25,20 @@ public class ApiGoogleApplicationTests {
 	@Test
 	public void readFiles() throws IOException, GeneralSecurityException  {
 		List<File> files = apiGoogleService.getFiles(10);
-		files.stream().forEach(file -> System.out.println("nombre: " + file.getName() + " id: " + file.getId()));
+		files.stream().forEach(file -> System.out.println("nombre: " + file.getName() + " id: " + file.getId() + file.getDescription()));
 		assertTrue(!files.isEmpty());
 	}
 	
 	@Test
-	public void matchWord() throws IOException, GeneralSecurityException {
-		boolean ok = apiGoogleService.containsWord("1DalOlMXMPVfc_AWrcC2TpntomXERQB53", "HOLA");
-		assertTrue(ok);
-	}
-	
-	@Test
 	public void createFile() throws IOException, GeneralSecurityException {
-		File file = apiGoogleService.createFile("TITULO", "LAAA DESCRIPCION");
+		File file = apiGoogleService.createFile("UNA COSA", "LAAA DESCRIPCION");
+		String lastIdCreated = file.getId();
 		assertTrue(file != null);
+		
+		boolean ok = apiGoogleService.containsWord(lastIdCreated, "LAAA DESCRIPCION");
+		assertTrue(ok);
+		
 	}
 	
-	@Test
-	public void getLastuploadFileId() throws IOException, GeneralSecurityException {
-		String id = apiGoogleService.getLastUploadFile();
-		assertTrue(id != null);
-	}
 }
 
